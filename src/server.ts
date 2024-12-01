@@ -4,8 +4,14 @@ import configRoutes from "./routes";
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 configRoutes(app);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+})

@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "38a9b4c9-75a8-4883-9e4e-1c1986e624ec",
-  "prevId": "e231efe6-3223-4aec-b8c0-d9afa8229095",
+  "id": "d9aeda84-b40d-439f-81f1-a27895e33732",
+  "prevId": "bc585d58-6729-4c30-a741-87a6daafc941",
   "tables": {
-    "category": {
-      "name": "category",
+    "categories": {
+      "name": "categories",
       "columns": {
         "id": {
           "name": "id",
@@ -29,33 +29,11 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "categoryIndex": {
-          "name": "categoryIndex",
-          "columns": [
-            "id"
-          ],
-          "isUnique": true
-        },
-        "categoryNameIndex": {
-          "name": "categoryNameIndex",
-          "columns": [
-            "name"
-          ],
-          "isUnique": false
-        },
-        "stockIdIndex": {
-          "name": "stockIdIndex",
-          "columns": [
-            "stockId"
-          ],
-          "isUnique": false
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
-        "category_stockId_stocks_id_fk": {
-          "name": "category_stockId_stocks_id_fk",
-          "tableFrom": "category",
+        "categories_stockId_stocks_id_fk": {
+          "name": "categories_stockId_stocks_id_fk",
+          "tableFrom": "categories",
           "tableTo": "stocks",
           "columnsFrom": [
             "stockId"
@@ -117,34 +95,12 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "productIndex": {
-          "name": "productIndex",
-          "columns": [
-            "id"
-          ],
-          "isUnique": true
-        },
-        "productNameIndex": {
-          "name": "productNameIndex",
-          "columns": [
-            "name"
-          ],
-          "isUnique": false
-        },
-        "categoryIdIndex": {
-          "name": "categoryIdIndex",
-          "columns": [
-            "categoryId"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
-        "products_categoryId_category_id_fk": {
-          "name": "products_categoryId_category_id_fk",
+        "products_categoryId_categories_id_fk": {
+          "name": "products_categoryId_categories_id_fk",
           "tableFrom": "products",
-          "tableTo": "category",
+          "tableTo": "categories",
           "columnsFrom": [
             "categoryId"
           ],
@@ -190,15 +146,7 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "stockIndex": {
-          "name": "stockIndex",
-          "columns": [
-            "id"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
@@ -209,7 +157,9 @@
   "enums": {},
   "_meta": {
     "schemas": {},
-    "tables": {},
+    "tables": {
+      "\"category\"": "\"categories\""
+    },
     "columns": {}
   },
   "internal": {

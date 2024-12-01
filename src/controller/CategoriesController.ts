@@ -7,41 +7,60 @@ export default class CategoriesController {
   private db = database;
 
   getAll = async (req: Request, res: Response) => {
-    const queryResult = await this.db.select().from(categories);
-
-    res.status(200).json(queryResult);
+    try {
+      const queryResult = await this.db.select().from(categories);
+      res.status(200).json(queryResult);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "An error occurred while fetching categories." });
+    }
   };
 
   create = async (req: Request, res: Response) => {
-    const category: Category = req.body;
+    try {
+      const category: Category = req.body;
 
-    const queryResult = await this.db
-      .insert(categories)
-      .values(category)
-      .returning();
+      const queryResult = await this.db
+        .insert(categories)
+        .values(category)
+        .returning();
 
-    res.status(200).json(queryResult);
+      res.status(200).json(queryResult);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "An error occurred while creating the category." });
+    }
   };
 
   getById = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
-
-    const queryResult = await this.db
-      .select()
-      .from(categories)
-      .where(eq(categories.id, id));
-
-    res.status(200).json(queryResult);
+    try {
+      const id = parseInt(req.params.id);
+      const queryResult = await this.db
+        .select()
+        .from(categories)
+        .where(eq(categories.id, id));
+      res.status(200).json(queryResult);
+    } catch (error) {
+      res.status(500).json({
+        error: "An error occurred while fetching the category by ID.",
+      });
+    }
   };
 
   getByStock = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
-
-    const queryResult = await this.db
-      .select()
-      .from(categories)
-      .where(eq(categories.stockId, id));
-
-    res.status(200).json(queryResult);
+    try {
+      const id = parseInt(req.params.id);
+      const queryResult = await this.db
+        .select()
+        .from(categories)
+        .where(eq(categories.stockId, id));
+      res.status(200).json(queryResult);
+    } catch (error) {
+      res.status(500).json({
+        error: "An error occurred while fetching the category by stock ID.",
+      });
+    }
   };
 }

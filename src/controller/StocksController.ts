@@ -7,27 +7,46 @@ export default class StocksController {
   private db = database;
 
   getAll = async (req: Request, res: Response) => {
-    const queryResult = this.db.select().from(stocks);
+    try {
+      const queryResult = await this.db.select().from(stocks);
 
-    res.status(200).json(queryResult);
+      res.status(200).json(queryResult);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while fetching all stocks." });
+    }
   };
 
   create = async (req: Request, res: Response) => {
-    const { name }: Stock = req.body;
+    try {
+      const { name }: Stock = req.body;
 
-    const result = await this.db
-      .select()
-      .from(stocks)
-      .where(eq(stocks.name, name));
+      const result = await this.db.insert(stocks).values({ name }).returning();
 
-    res.status(200).json(result);
+      res.status(200).json(result);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "An error occurred while creating a stock." });
+    }
   };
 
   getById = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
+    try {
+      const id = parseInt(req.params.id);
 
-    const result = this.db.select().from(stocks).where(eq(stocks.id, id));
+      const result = await this.db
+        .select()
+        .from(stocks)
+        .where(eq(stocks.id, id));
 
-    res.status(200).json(result);
+      res.status(200).json(result);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "An error occurred while fetching a stock by id." });
+    }
   };
 }
