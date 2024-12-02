@@ -5,4 +5,5 @@ export default interface Product {
     quantity: number;
     categoryId: number;
     stockId: number;
+    userId: number;
 }

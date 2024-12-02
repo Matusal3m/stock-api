@@ -1,5 +1,5 @@
 import { Router } from "express";
-import StocksController from "../controller/StocksController";
+import StocksController from "../controllers/StocksController";
 
 const controller = new StocksController();
 
@@ -7,7 +7,7 @@ const router = Router();
 
 router
   .route("/")
-  .get(controller.getAll)
+  .get(controller.getAllUserStocks)
   .post(controller.create)
   .put(controller.update);
 

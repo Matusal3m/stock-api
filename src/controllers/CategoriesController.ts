@@ -1,14 +1,16 @@
 import { eq } from "drizzle-orm";
 import { categories, database } from "../database";
-import { type Request, type Response } from "express";
+import { type Response, type Request } from "express";
 import type Category from "../models/Category";
 
 export default class CategoriesController {
-  private db = database;
-
-  getAll = async (req: Request, res: Response) => {
+  getAllUserCategories = async (req: Request, res: Response) => {
     try {
-      const queryResult = await this.db.select().from(categories);
+      const queryResult = await database
+        .select()
+        .from(categories)
+        .where(eq(categories.userId, req.body.userData.id));
+
       res.status(200).json(queryResult);
     } catch (error) {
       res
@@ -21,7 +23,7 @@ export default class CategoriesController {
     try {
       const category: Category = req.body;
 
-      const queryResult = await this.db
+      const queryResult = await database
         .insert(categories)
         .values(category)
         .returning();
@@ -38,7 +40,7 @@ export default class CategoriesController {
     try {
       const { id, ...rest } = req.body;
 
-      const queryResult = await this.db
+      const queryResult = await database
         .update(categories)
         .set({ id, ...rest })
         .where(eq(categories.id, parseInt(id)));
@@ -54,7 +56,7 @@ export default class CategoriesController {
   getById = async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
-      const queryResult = await this.db
+      const queryResult = await database
         .select()
         .from(categories)
         .where(eq(categories.id, id));
@@ -69,7 +71,7 @@ export default class CategoriesController {
   getByStock = async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
-      const queryResult = await this.db
+      const queryResult = await database
         .select()
         .from(categories)
         .where(eq(categories.stockId, id));

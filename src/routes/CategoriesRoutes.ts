@@ -1,5 +1,5 @@
 import { Router } from "express";
-import CategoriesController from "../controller/CategoriesController";
+import CategoriesController from "../controllers/CategoriesController";
 
 const controller = new CategoriesController();
 
@@ -7,7 +7,7 @@ const router = Router();
 
 router
   .route("/")
-  .get(controller.getAll)
+  .get(controller.getAllUserCategories)
   .post(controller.create)
   .put(controller.update);
 

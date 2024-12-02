@@ -1,14 +1,15 @@
 import { eq } from "drizzle-orm";
 import { database, stocks } from "../database";
 import type Stock from "../models/Stock";
-import { type Request, type Response } from "express";
+import { type Response, type Request } from "express";
 
 export default class StocksController {
-  private db = database;
-
-  getAll = async (req: Request, res: Response) => {
+  getAllUserStocks = async (req: Request, res: Response) => {
     try {
-      const queryResult = await this.db.select().from(stocks);
+      const queryResult = await database
+        .select()
+        .from(stocks)
+        .where(eq(stocks.userId, req.body.userData.id));
 
       res.status(200).json(queryResult);
     } catch (error) {
@@ -23,7 +24,7 @@ export default class StocksController {
     try {
       const { name }: Stock = req.body;
 
-      const result = await this.db.insert(stocks).values({ name }).returning();
+      const result = await database.insert(stocks).values({ name }).returning();
 
       res.status(200).json(result);
     } catch (error) {
@@ -37,7 +38,7 @@ export default class StocksController {
     try {
       const { id, ...rest } = req.body;
       console.log({ id, rest });
-      const queryResult = await this.db
+      const queryResult = await database
         .update(stocks)
         .set({ id, ...rest })
         .where(eq(stocks.id, parseInt(id)));
@@ -54,7 +55,7 @@ export default class StocksController {
     try {
       const id = parseInt(req.params.id);
 
-      const result = await this.db
+      const result = await database
         .select()
         .from(stocks)
         .where(eq(stocks.id, id));

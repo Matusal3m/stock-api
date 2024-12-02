@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ProductsController from "../controller/ProductsController";
+import ProductsController from "../controllers/ProductsController";
 
 const controller = new ProductsController();
 
@@ -7,7 +7,7 @@ const router = Router();
 
 router
   .route("/")
-  .get(controller.getAll)
+  .get(controller.getAllUserProducts)
   .post(controller.create)
   .put(controller.update);
 
