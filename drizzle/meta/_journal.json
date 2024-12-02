@@ -15,6 +15,13 @@
       "when": 1733054231349,
       "tag": "0001_brainy_absorbing_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1733161631228,
+      "tag": "0002_dashing_matthew_murdock",
+      "breakpoints": true
     }
   ]
 }
