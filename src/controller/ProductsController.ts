@@ -19,6 +19,7 @@ export default class ProductsController {
 
   create = async (req: Request, res: Response) => {
     try {
+      console.log("Body da requisição: ", req.body);
       const product: Product = req.body;
       const queryResult = await this.db
         .insert(products)
@@ -29,6 +30,25 @@ export default class ProductsController {
       res
         .status(500)
         .json({ error: "An error occurred while creating the product." });
+
+      console.log(error);
+    }
+  };
+
+  update = async (req: Request, res: Response) => {
+    try {
+      const { id, ...rest } = req.body;
+
+      const queryResult = await this.db
+        .update(products)
+        .set({ id, ...rest })
+        .where(eq(products.id, parseInt(id)));
+
+      res.status(200).json(queryResult);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "An error occurred while updating a product" });
     }
   };
 
@@ -39,7 +59,7 @@ export default class ProductsController {
         .select()
         .from(products)
         .where(eq(products.id, id));
-      res.status(200).json(queryResult);
+      res.status(200).json(queryResult[0]);
     } catch (error) {
       res
         .status(500)

@@ -8,10 +8,9 @@ const router = Router();
 router
   .route("/")
   .get(controller.getAll)
-  .post(controller.create);
+  .post(controller.create)
+  .put(controller.update);
 
-router
-  .route("/:id")
-  .get(controller.getById);
+router.route("/:id").get(controller.getById);
 
 export default router;

@@ -8,18 +8,19 @@ const router = Router();
 router
   .route("/")
   .get(controller.getAll)
-  .post(controller.create);
+  .post(controller.create)
+  .put(controller.update);
 
 router
   .route("/:id")
-  .get(controller.getById);
+  .get(controller.getById)
 
 router
-  .route("category/:id")
+  .route("/category/:id")
   .get(controller.getByCategory);
 
 router
-  .route("stock/:id")
+  .route("/stock/:id")
   .get(controller.getByStock);
 
 export default router;

@@ -33,6 +33,23 @@ export default class StocksController {
     }
   };
 
+  update = async (req: Request, res: Response) => {
+    try {
+      const { id, ...rest } = req.body;
+      console.log({ id, rest });
+      const queryResult = await this.db
+        .update(stocks)
+        .set({ id, ...rest })
+        .where(eq(stocks.id, parseInt(id)));
+
+      res.status(200).json(queryResult);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "An error occurred while updating a stock" });
+    }
+  };
+
   getById = async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
@@ -42,7 +59,7 @@ export default class StocksController {
         .from(stocks)
         .where(eq(stocks.id, id));
 
-      res.status(200).json(result);
+      res.status(200).json(result[0]);
     } catch (error) {
       res
         .status(500)

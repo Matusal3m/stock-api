@@ -4,18 +4,15 @@ import CategoriesController from "../controller/CategoriesController";
 const controller = new CategoriesController();
 
 const router = Router();
-// const call = (req: any, res: any) => {
-//   res.send("Hello");
-// }
 
 router
   .route("/")
-  // .get(call)
   .get(controller.getAll)
-  .post(controller.create);
+  .post(controller.create)
+  .put(controller.update);
 
 router.route("/:id").get(controller.getById);
 
-router.route("/stock/:id");
+router.route("/stock/:id").get(controller.getByStock);
 
 export default router;
