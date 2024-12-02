@@ -1,11 +1,11 @@
-CREATE TABLE `category` (
+CREATE TABLE `category` IF NOT EXISTS(
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(20) NOT NULL,
 	`stockId` integer,
 	FOREIGN KEY (`stockId`) REFERENCES `stocks`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `products` (
+CREATE TABLE `products` IF NOT EXISTS(
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(20) NOT NULL,
 	`description` text(60),
@@ -16,7 +16,7 @@ CREATE TABLE `products` (
 	FOREIGN KEY (`stockId`) REFERENCES `stocks`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `stocks` (
+CREATE TABLE `stocks` IF NOT EXISTS(
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(20) NOT NULL
 );

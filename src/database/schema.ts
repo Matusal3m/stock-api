@@ -27,7 +27,7 @@ export const stocks = sqliteTable(
     userId: int().references(() => users.id),
   },
   (table) => ({
-    userIdIdx: index("user_id_idx").on(table.userId),
+    userIdIdx: index("user_id_stock_idx").on(table.userId),
   })
 );
 
@@ -40,8 +40,8 @@ export const categories = sqliteTable(
     userId: int().references(() => users.id),
   },
   (table) => ({
-    userIdIdx: index("user_id_idx").on(table.userId),
-    stockIdIdx: index("stock_id_idx").on(table.stockId),
+    userIdIdx: index("user_id_category_idx").on(table.userId),
+    stockIdIdx: index("stock_id_category_idx").on(table.stockId),
   })
 );
 
@@ -61,8 +61,8 @@ export const products = sqliteTable(
     userId: int().references(() => users.id),
   },
   (table) => ({
-    userIdIdx: index("user_id_idx").on(table.userId),
-    stockIdIdx: index("stock_id_idx").on(table.stockId),
+    userIdIdx: index("user_id_product_idx").on(table.userId),
+    stockIdIdx: index("stock_id__product_idx").on(table.stockId),
     categoryIdIdx: index("category_id_idx").on(table.categoryId),
   })
 );
