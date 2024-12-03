@@ -8,10 +8,10 @@ import AuthMiddleware from "../middlewares/AuthMiddleware";
 export default (app: Application) => {
   const router = Router();
 
-  router.use("/products", ProductsRoutes, AuthMiddleware);
-  router.use("/categories", CategoriesRoutes, AuthMiddleware);
-  router.use("/stocks", StocksRoutes, AuthMiddleware);
+  router.use("/products", AuthMiddleware, ProductsRoutes);
+  router.use("/categories", AuthMiddleware, CategoriesRoutes);
+  router.use("/stocks", AuthMiddleware, StocksRoutes);
   router.use("/auth", AuthenticationRoutes);
-
+  
   app.use(router);
 };

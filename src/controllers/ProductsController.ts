@@ -9,7 +9,7 @@ export default class ProductsController {
       const queryResult = await database
         .select()
         .from(products)
-        .where(eq(products.userId, req.body.userData.id));
+        .where(eq(products.userId, req.user?.id!));
 
       res.status(200).json(queryResult);
     } catch (error) {
@@ -21,11 +21,12 @@ export default class ProductsController {
 
   create = async (req: Request, res: Response) => {
     try {
-      console.log("Body da requisição: ", req.body);
-      const product: Product = req.body;
+      // O userId daqui vem apenas do modell, mas ele é enviado msm é pelo JWT
+      const { userId, ...product }: Product = req.body;
+
       const queryResult = await database
         .insert(products)
-        .values(product)
+        .values({ userId: req.user?.id!, ...product })
         .returning();
       res.status(200).json(queryResult);
     } catch (error) {

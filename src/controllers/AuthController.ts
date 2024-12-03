@@ -16,7 +16,12 @@ export default class AuthController {
         throw new Error("User not found");
       }
 
-      if (!(await compare(userRequestData.password, userData.password))) {
+      const passwordsMatch = await compare(
+        userRequestData.password,
+        userData.password
+      );
+
+      if (!passwordsMatch) {
         throw new Error("Invalid password");
       }
 
@@ -31,6 +36,7 @@ export default class AuthController {
       res.status(200).json({ message: "Logged in successfully", token });
     } catch (error) {
       res.status(500).json({ error });
+      console.log({ error });
     }
   };
 
@@ -45,13 +51,14 @@ export default class AuthController {
 
       const hashedPassword = await hash(password, 10);
 
-      await database
+      const createdUser = await database
         .insert(users)
         .values({ password: hashedPassword, ...user })
-        .returning();
+        .returning()
+        .get();
 
       const token = this.generateUserJWT({
-        id: user.id!,
+        id: createdUser.id!,
         name: user.name,
         email: user.email,
       });
@@ -59,7 +66,7 @@ export default class AuthController {
       res.status(200).json({ message: "User created successfully", token });
     } catch (error) {
       res.status(500).json({ error });
-      console.log(error)
+      console.log({ error });
     }
   };
 
@@ -73,7 +80,7 @@ export default class AuthController {
 
       return queryResult;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -82,6 +89,8 @@ export default class AuthController {
     name: string;
     email: string;
   }) => {
+    console.log("generating token", user)
+
     const JWT_SECRET = process.env.JWT_SECRET!;
     const expiresIn = 60 * 60 * 24 * 30; // 30 days
 

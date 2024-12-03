@@ -9,7 +9,7 @@ export default class CategoriesController {
       const queryResult = await database
         .select()
         .from(categories)
-        .where(eq(categories.userId, req.body.userData.id));
+        .where(eq(categories.userId, req.user?.id!));
 
       res.status(200).json(queryResult);
     } catch (error) {
@@ -21,11 +21,12 @@ export default class CategoriesController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const category: Category = req.body;
+      const { name, stockId }: Category = req.body;
+      const userId = req.user?.id!;
 
       const queryResult = await database
         .insert(categories)
-        .values(category)
+        .values({ name, stockId, userId })
         .returning();
 
       res.status(200).json(queryResult);

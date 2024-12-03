@@ -9,7 +9,7 @@ export default class StocksController {
       const queryResult = await database
         .select()
         .from(stocks)
-        .where(eq(stocks.userId, req.body.userData.id));
+        .where(eq(stocks.userId, req.user?.id!));
 
       res.status(200).json(queryResult);
     } catch (error) {
@@ -23,8 +23,12 @@ export default class StocksController {
   create = async (req: Request, res: Response) => {
     try {
       const { name }: Stock = req.body;
-
-      const result = await database.insert(stocks).values({ name }).returning();
+      const userId = req.user?.id!;
+      console.log({userId})
+      const result = await database
+        .insert(stocks)
+        .values({ name, userId })
+        .returning();
 
       res.status(200).json(result);
     } catch (error) {
