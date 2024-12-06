@@ -26,7 +26,6 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
     req.user = userData;
 
-    console.log({ userData });
     next();
   } catch (error) {
     res.status(401).json({ error: "Unauthorized" });

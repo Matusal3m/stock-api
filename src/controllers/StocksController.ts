@@ -24,7 +24,7 @@ export default class StocksController {
     try {
       const { name }: Stock = req.body;
       const userId = req.user?.id!;
-      console.log({userId})
+
       const result = await database
         .insert(stocks)
         .values({ name, userId })
@@ -41,7 +41,6 @@ export default class StocksController {
   update = async (req: Request, res: Response) => {
     try {
       const { id, ...rest } = req.body;
-      console.log({ id, rest });
       const queryResult = await database
         .update(stocks)
         .set({ id, ...rest })
