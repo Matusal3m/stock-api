@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1733054048537,
-      "tag": "0000_curved_mockingbird",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1733054231349,
-      "tag": "0001_brainy_absorbing_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1733161631228,
-      "tag": "0002_dashing_matthew_murdock",
+      "when": 1735965679560,
+      "tag": "0000_odd_slapstick",
       "breakpoints": true
     }
   ]

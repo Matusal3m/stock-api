@@ -5,4 +5,4 @@ import { Database } from "bun:sqlite";
 const sqlite = new Database(process.env.DB_FILE_NAME!);
 const database = drizzle({ client: sqlite });
 
-export { database};
+export { database };
