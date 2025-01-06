@@ -7,6 +7,7 @@ export default class DashboardController {
     try {
       const queryResult = await database
         .select({
+          id: products.id,
           name: products.name,
           quantity: products.quantity,
           description: products.description,
@@ -30,6 +31,7 @@ export default class DashboardController {
     try {
       const queryResult = await database
         .select({
+          id: categories.id,
           name: categories.name,
           stock: stocks.name,
           productCount: count(products.id),
@@ -73,6 +75,7 @@ export default class DashboardController {
 
       const joinedCounterTable = await database
         .select({
+          id: stocks.id,
           name: stocks.name,
           products: productsCount.products,
           categories: categoriesCount.categories,
