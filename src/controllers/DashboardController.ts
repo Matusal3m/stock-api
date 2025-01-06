@@ -34,7 +34,7 @@ export default class DashboardController {
           id: categories.id,
           name: categories.name,
           stock: stocks.name,
-          productCount: count(products.id),
+          productsCount: count(products.id),
         })
         .from(categories)
         .innerJoin(stocks, eq(categories.stockId, stocks.id))
@@ -53,7 +53,7 @@ export default class DashboardController {
 
   getStocks = async (req: Request, res: Response) => {
     try {
-      const productsCount = await database
+      const productsCountTable = await database
         .select({
           stockId: products.stockId,
           products: count(products.id).as("products"),
@@ -63,7 +63,7 @@ export default class DashboardController {
         .groupBy(products.stockId)
         .as("products_count");
 
-      const categoriesCount = await database
+      const categoriesCountTable = await database
         .select({
           stockId: categories.stockId,
           categories: count(categories.id).as("categories"),
@@ -77,12 +77,18 @@ export default class DashboardController {
         .select({
           id: stocks.id,
           name: stocks.name,
-          products: productsCount.products,
-          categories: categoriesCount.categories,
+          productsCount: productsCountTable.products,
+          categoriesCount: categoriesCountTable.categories,
         })
         .from(stocks)
-        .innerJoin(productsCount, eq(productsCount.stockId, stocks.id))
-        .innerJoin(categoriesCount, eq(categoriesCount.stockId, stocks.id))
+        .innerJoin(
+          productsCountTable,
+          eq(productsCountTable.stockId, stocks.id)
+        )
+        .innerJoin(
+          categoriesCountTable,
+          eq(categoriesCountTable.stockId, stocks.id)
+        )
         .where(eq(stocks.userId, req.user?.id!));
 
       res.status(200).json(joinedCounterTable);
