@@ -12,6 +12,9 @@ router
   .put(controller.update);
 
 router
+  .get("/quantity", controller.getQuantity);
+
+router
   .route("/:id")
   .get(controller.getById)
 

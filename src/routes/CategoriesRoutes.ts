@@ -11,6 +11,9 @@ router
   .post(controller.create)
   .put(controller.update);
 
+router
+  .get("/quantity", controller.getQuantity);
+
 router.route("/:id").get(controller.getById);
 
 router.route("/stock/:id").get(controller.getByStock);

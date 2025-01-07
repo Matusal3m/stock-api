@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import { categories, database } from "../database";
 import { type Response, type Request } from "express";
 import type Category from "../models/Category";
@@ -80,6 +80,24 @@ export default class CategoriesController {
     } catch (error) {
       res.status(500).json({
         error: "An error occurred while fetching the category by stock ID.",
+      });
+    }
+  };
+
+  getQuantity = async (req: Request, res: Response) => {
+    try {
+      const queryResult = await database
+        .select({
+          quantity: count(categories.id),
+        })
+        .from(categories)
+        .where(eq(categories.userId, req.user?.id!));
+
+      res.status(200).json(queryResult);
+    } catch (error) {
+      res.status(500).json({
+        error:
+          "An error occurred while fetching the quantity of categories from a user.",
       });
     }
   };

@@ -1,5 +1,5 @@
-import { eq } from "drizzle-orm";
-import { database, products } from "../database";
+import { count, eq } from "drizzle-orm";
+import { database, products, stocks } from "../database";
 import type Product from "../models/Product";
 import { type Response, type Request } from "express";
 
@@ -97,6 +97,24 @@ export default class ProductsController {
       res
         .status(500)
         .json({ error: "An error occurred while fetching products by stock." });
+    }
+  };
+
+  getQuantity = async (req: Request, res: Response) => {
+    try {
+      const queryResult = await database
+        .select({
+          quantity: count(products.id),
+        })
+        .from(products)
+        .where(eq(products.userId, req.user?.id!));
+
+      res.status(200).json(queryResult);
+    } catch (error) {
+      res.status(500).json({
+        error:
+          "An error occurred while fetching the quantity of products from a user.",
+      });
     }
   };
 }
