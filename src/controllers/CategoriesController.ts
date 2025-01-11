@@ -5,7 +5,9 @@ import type Category from "../models/Category";
 
 async function getAllUserCategories(req: Request, res: Response) {
   try {
-    const queryResult = await database
+    const userId = req.user?.id!;
+
+    const userCategories = await database
       .select({
         id: categories.id,
         name: categories.name,
@@ -16,10 +18,10 @@ async function getAllUserCategories(req: Request, res: Response) {
       .from(categories)
       .innerJoin(stocks, eq(categories.stockId, stocks.id))
       .leftJoin(products, eq(categories.id, products.categoryId))
-      .where(eq(categories.userId, req.user?.id!))
+      .where(eq(categories.userId, userId))
       .groupBy(categories.id);
 
-    res.status(200).json(queryResult);
+    res.status(200).json(userCategories);
   } catch (error) {
     res.status(500).json({
       error: "Could not select categories from database",
@@ -32,12 +34,12 @@ async function create(req: Request, res: Response) {
     const { name, stockId }: Category = req.body;
     const userId = req.user?.id!;
 
-    const queryResult = await database
+    const newCategory = await database
       .insert(categories)
       .values({ name, stockId, userId })
       .returning();
 
-    res.status(200).json(queryResult);
+    res.status(200).json(newCategory);
   } catch (error) {
     res
       .status(500)
@@ -49,12 +51,12 @@ async function update(req: Request, res: Response) {
   try {
     const { id, ...rest } = req.body;
 
-    const queryResult = await database
+    const updatedCategory = await database
       .update(categories)
       .set({ id, ...rest })
       .where(eq(categories.id, parseInt(id)));
 
-    res.status(200).json(queryResult);
+    res.status(200).json(updatedCategory);
   } catch (error) {
     res
       .status(500)
@@ -64,12 +66,13 @@ async function update(req: Request, res: Response) {
 
 async function getById(req: Request, res: Response) {
   try {
-    const id = parseInt(req.params.id);
-    const queryResult = await database
+    const categoryId = parseInt(req.params.id);
+    const requestedCategory = await database
       .select()
       .from(categories)
-      .where(eq(categories.id, id));
-    res.status(200).json(queryResult[0]);
+      .where(eq(categories.id, categoryId));
+
+    res.status(200).json(requestedCategory[0]);
   } catch (error) {
     res.status(500).json({
       error: "An error occurred while fetching the category by ID.",
@@ -79,12 +82,13 @@ async function getById(req: Request, res: Response) {
 
 async function getByStock(req: Request, res: Response) {
   try {
-    const id = parseInt(req.params.id);
-    const queryResult = await database
+    const stockId = parseInt(req.params.id);
+    const requestedStock = await database
       .select()
       .from(categories)
-      .where(eq(categories.stockId, id));
-    res.status(200).json(queryResult);
+      .where(eq(categories.stockId, stockId));
+
+    res.status(200).json(requestedStock);
   } catch (error) {
     res.status(500).json({
       error: "An error occurred while fetching the category by stock ID.",
@@ -94,14 +98,16 @@ async function getByStock(req: Request, res: Response) {
 
 async function getQuantity(req: Request, res: Response) {
   try {
-    const queryResult = await database
+    const userId = req.user?.id!;
+
+    const categoriesQuantity = await database
       .select({
         quantity: count(categories.id),
       })
       .from(categories)
-      .where(eq(categories.userId, req.user?.id!));
+      .where(eq(categories.userId, userId));
 
-    res.status(200).json(queryResult);
+    res.status(200).json(categoriesQuantity);
   } catch (error) {
     res.status(500).json({
       error:
