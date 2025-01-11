@@ -12,7 +12,7 @@ export default class DashboardController {
           quantity: products.quantity,
           description: products.description,
           category: categories.name,
-          stocks: stocks.name,
+          stock: stocks.name,
         })
         .from(products)
         .where(eq(products.userId, req.user?.id!))
@@ -33,27 +33,34 @@ export default class DashboardController {
         .select({
           id: categories.id,
           name: categories.name,
+          stockId: stocks.id,
           stock: stocks.name,
           productsCount: count(products.id),
         })
         .from(categories)
         .innerJoin(stocks, eq(categories.stockId, stocks.id))
-        .innerJoin(products, eq(categories.id, products.categoryId))
+        .leftJoin(products, eq(categories.id, products.categoryId))
         .where(eq(categories.userId, req.user?.id!))
         .groupBy(categories.id);
 
-      res.status(200).json(queryResult);
+      const response = queryResult.map((category) => ({
+        id: category.id,
+        name: category.name,
+        stock: { id: category.stockId, name: category.stock },
+        productsCount: category.productsCount,
+      }));
+
+      res.status(200).json(response);
     } catch (error) {
       res.status(500).json({
         error: "Could not select categories from database",
-        details: JSON.stringify(error),
       });
     }
   };
 
   getStocks = async (req: Request, res: Response) => {
     try {
-      const productsCountTable = await database
+      const productsCountTable = database
         .select({
           stockId: products.stockId,
           products: count(products.id).as("products"),
@@ -63,7 +70,7 @@ export default class DashboardController {
         .groupBy(products.stockId)
         .as("products_count");
 
-      const categoriesCountTable = await database
+      const categoriesCountTable = database
         .select({
           stockId: categories.stockId,
           categories: count(categories.id).as("categories"),
@@ -81,13 +88,10 @@ export default class DashboardController {
           categoriesCount: categoriesCountTable.categories,
         })
         .from(stocks)
-        .innerJoin(
-          productsCountTable,
-          eq(productsCountTable.stockId, stocks.id)
-        )
-        .innerJoin(
+        .leftJoin(productsCountTable, eq(productsCountTable.stockId, stocks.id))
+        .leftJoin(
           categoriesCountTable,
-          eq(categoriesCountTable.stockId, stocks.id)
+          eq(categoriesCountTable.stockId, stocks.id),
         )
         .where(eq(stocks.userId, req.user?.id!));
 
@@ -95,7 +99,6 @@ export default class DashboardController {
     } catch (error) {
       res.status(500).json({
         error: "Could not select stocks from database",
-        details: JSON.stringify(error),
       });
       throw error;
     }
