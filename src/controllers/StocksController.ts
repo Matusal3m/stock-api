@@ -1,21 +1,51 @@
 import { count, eq } from "drizzle-orm";
-import { database, stocks } from "../database";
+import { categories, database, products, stocks } from "../database";
 import type Stock from "../models/Stock";
 import { type Response, type Request } from "express";
 
 async function getAllUserStocks(req: Request, res: Response) {
   try {
-    const queryResult = await database
-      .select()
+    const productsCountTable = database
+      .select({
+        stockId: products.stockId,
+        products: count(products.id).as("products"),
+      })
+      .from(products)
+      .where(eq(products.userId, req.user?.id!))
+      .groupBy(products.stockId)
+      .as("products_count");
+
+    const categoriesCountTable = database
+      .select({
+        stockId: categories.stockId,
+        categories: count(categories.id).as("categories"),
+      })
+      .from(categories)
+      .where(eq(categories.userId, req.user?.id!))
+      .groupBy(categories.stockId)
+      .as("categories_count");
+
+    const joinedCounterTable = await database
+      .select({
+        id: stocks.id,
+        name: stocks.name,
+        productsCount: productsCountTable.products,
+        categoriesCount: categoriesCountTable.categories,
+      })
       .from(stocks)
+      .leftJoin(productsCountTable, eq(productsCountTable.stockId, stocks.id))
+      .leftJoin(
+        categoriesCountTable,
+        eq(categoriesCountTable.stockId, stocks.id)
+      )
       .where(eq(stocks.userId, req.user?.id!));
 
-    res.status(200).json(queryResult);
+    res.status(200).json(joinedCounterTable);
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while fetching all stocks." });
+    res.status(500).json({
+      error: "Could not select stocks from database",
+    });
+    throw error;
   }
 }
 

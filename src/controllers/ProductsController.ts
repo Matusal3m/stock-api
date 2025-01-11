@@ -1,20 +1,27 @@
 import { count, eq } from "drizzle-orm";
-import { database, products, stocks } from "../database";
+import { categories, database, products, stocks } from "../database";
 import type Product from "../models/Product";
 import { type Response, type Request } from "express";
 
 async function getAllUserProducts(req: Request, res: Response) {
   try {
     const queryResult = await database
-      .select()
+      .select({
+        id: products.id,
+        name: products.name,
+        quantity: products.quantity,
+        description: products.description,
+        category: categories.name,
+        stock: stocks.name,
+      })
       .from(products)
-      .where(eq(products.userId, req.user?.id!));
+      .where(eq(products.userId, req.user?.id!))
+      .innerJoin(categories, eq(products.categoryId, categories.id))
+      .innerJoin(stocks, eq(products.stockId, stocks.id));
 
     res.status(200).json(queryResult);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while fetching products." });
+    res.status(500).json({ error: "An error ocurred while fetching products" });
   }
 }
 

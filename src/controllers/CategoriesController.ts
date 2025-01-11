@@ -1,20 +1,29 @@
 import { count, eq } from "drizzle-orm";
-import { categories, database } from "../database";
+import { categories, database, products, stocks } from "../database";
 import { type Response, type Request } from "express";
 import type Category from "../models/Category";
 
 async function getAllUserCategories(req: Request, res: Response) {
   try {
     const queryResult = await database
-      .select()
+      .select({
+        id: categories.id,
+        name: categories.name,
+        stockId: stocks.id,
+        stock: stocks.name,
+        productsCount: count(products.id),
+      })
       .from(categories)
-      .where(eq(categories.userId, req.user?.id!));
+      .innerJoin(stocks, eq(categories.stockId, stocks.id))
+      .leftJoin(products, eq(categories.id, products.categoryId))
+      .where(eq(categories.userId, req.user?.id!))
+      .groupBy(categories.id);
 
     res.status(200).json(queryResult);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while fetching categories." });
+    res.status(500).json({
+      error: "Could not select categories from database",
+    });
   }
 }
 
