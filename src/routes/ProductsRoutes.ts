@@ -1,29 +1,20 @@
 import { Router } from "express";
 import ProductsController from "../controllers/ProductsController";
 
-const controller = new ProductsController();
-
 const router = Router();
 
 router
   .route("/")
-  .get(controller.getAllUserProducts)
-  .post(controller.create)
-  .put(controller.update);
+  .get(ProductsController.getAllUserProducts)
+  .post(ProductsController.create)
+  .put(ProductsController.update);
 
-router
-  .get("/quantity", controller.getQuantity);
+router.get("/quantity", ProductsController.getQuantity);
 
-router
-  .route("/:id")
-  .get(controller.getById)
+router.route("/:id").get(ProductsController.getById);
 
-router
-  .route("/category/:id")
-  .get(controller.getByCategory);
+router.route("/category/:id").get(ProductsController.getByCategory);
 
-router
-  .route("/stock/:id")
-  .get(controller.getByStock);
+router.route("/stock/:id").get(ProductsController.getByStock);
 
 export default router;

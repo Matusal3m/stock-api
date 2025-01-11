@@ -1,20 +1,16 @@
 import { Router } from "express";
 import StocksController from "../controllers/StocksController";
 
-const controller = new StocksController();
-
 const router = Router();
 
 router
   .route("/")
-  .get(controller.getAllUserStocks)
-  .post(controller.create)
-  .put(controller.update);
+  .get(StocksController.getAllUserStocks)
+  .post(StocksController.create)
+  .put(StocksController.update);
 
-router
-  .get("/quantity", controller.getQuantity);
+router.get("/quantity", StocksController.getQuantity);
 
-
-router.route("/:id").get(controller.getById);
+router.route("/:id").get(StocksController.getById);
 
 export default router;

@@ -1,12 +1,10 @@
 import { Router } from "express";
 import DashboardController from "../controllers/DashboardController";
 
-const controller = new DashboardController();
-
 const router = Router();
 
-router.route("/products").get(controller.getProduct);
-router.route("/categories").get(controller.getCategories);
-router.route("/stocks").get(controller.getStocks);
+router.route("/products").get(DashboardController.getProduct);
+router.route("/categories").get(DashboardController.getCategories);
+router.route("/stocks").get(DashboardController.getStocks);
 
 export default router;
