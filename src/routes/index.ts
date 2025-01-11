@@ -1,6 +1,5 @@
 import ProductsRoutes from "./ProductsRoutes";
 import CategoriesRoutes from "./CategoriesRoutes";
-import DashboardRoutes from "./DashboardRoutes";
 import StocksRoutes from "./StocksRoutes";
 import AuthenticationRoutes from "./AuthenticationRoutes";
 import StatusRoutes from "./StatusRoutes";
@@ -13,7 +12,6 @@ export default (app: Application) => {
   router.use("/products", AuthMiddleware, ProductsRoutes);
   router.use("/categories", AuthMiddleware, CategoriesRoutes);
   router.use("/stocks", AuthMiddleware, StocksRoutes);
-  router.use("/dashboard", AuthMiddleware, DashboardRoutes);
 
   router.use("/auth", AuthenticationRoutes);
 
