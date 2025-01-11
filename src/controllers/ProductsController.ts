@@ -111,12 +111,13 @@ async function getByStock(req: Request, res: Response) {
 
 async function getQuantity(req: Request, res: Response) {
   try {
-    const productsQuantity = await database
+    const productsQuantity = database
       .select({
         quantity: count(products.id),
       })
       .from(products)
-      .where(eq(products.userId, req.user?.id!));
+      .where(eq(products.userId, req.user?.id!))
+      .get();
 
     res.status(200).json(productsQuantity);
   } catch (error) {

@@ -100,12 +100,13 @@ async function getQuantity(req: Request, res: Response) {
   try {
     const userId = req.user?.id!;
 
-    const categoriesQuantity = await database
+    const categoriesQuantity = database
       .select({
         quantity: count(categories.id),
       })
       .from(categories)
-      .where(eq(categories.userId, userId));
+      .where(eq(categories.userId, userId))
+      .get();
 
     res.status(200).json(categoriesQuantity);
   } catch (error) {

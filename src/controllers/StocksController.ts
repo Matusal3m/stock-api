@@ -36,7 +36,7 @@ async function getAllUserStocks(req: Request, res: Response) {
       .leftJoin(productsCountTable, eq(productsCountTable.stockId, stocks.id))
       .leftJoin(
         categoriesCountTable,
-        eq(categoriesCountTable.stockId, stocks.id)
+        eq(categoriesCountTable.stockId, stocks.id),
       )
       .where(eq(stocks.userId, req.user?.id!));
 
@@ -100,12 +100,13 @@ async function getById(req: Request, res: Response) {
 
 async function getQuantity(req: Request, res: Response) {
   try {
-    const stocksQuantity = await database
+    const stocksQuantity = database
       .select({
         quantity: count(stocks.id),
       })
       .from(stocks)
-      .where(eq(stocks.userId, req.user?.id!));
+      .where(eq(stocks.userId, req.user?.id!))
+      .get();
 
     res.status(200).json(stocksQuantity);
   } catch (error) {
