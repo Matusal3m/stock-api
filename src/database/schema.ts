@@ -24,7 +24,9 @@ export const stocks = sqliteTable(
   {
     id: int().primaryKey({ autoIncrement: true }),
     name: text("name", { length: 20 }).notNull(),
-    userId: int().references(() => users.id),
+    userId: int()
+      .references(() => users.id)
+      .notNull(),
   },
   (table) => ({
     userIdIdx: index("user_id_stock_idx").on(table.userId),
@@ -36,8 +38,12 @@ export const categories = sqliteTable(
   {
     id: int().primaryKey({ autoIncrement: true }),
     name: text("name", { length: 20 }).notNull(),
-    stockId: int().references(() => stocks.id),
-    userId: int().references(() => users.id),
+    stockId: int()
+      .references(() => stocks.id)
+      .notNull(),
+    userId: int()
+      .references(() => users.id)
+      .notNull(),
   },
   (table) => ({
     userIdIdx: index("user_id_category_idx").on(table.userId),
@@ -58,7 +64,9 @@ export const products = sqliteTable(
     stockId: int()
       .references(() => stocks.id)
       .notNull(),
-    userId: int().references(() => users.id),
+    userId: int()
+      .references(() => users.id)
+      .notNull(),
   },
   (table) => ({
     userIdIdx: index("user_id_product_idx").on(table.userId),
