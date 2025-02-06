@@ -58,7 +58,7 @@ async function seedCategories(
 }
 
 async function seedStocks(n: number, userScope: number) {
-  const stocksData: (typeof categories.$inferInsert)[] = [];
+  const stocksData: (typeof stocks.$inferInsert)[] = [];
 
   for (let i = 0; i < n; i++) {
     stocksData.push({
