@@ -3,6 +3,7 @@ import CategoriesRoutes from "./CategoriesRoutes";
 import StocksRoutes from "./StocksRoutes";
 import AuthenticationRoutes from "./AuthenticationRoutes";
 import StatusRoutes from "./StatusRoutes";
+import SearchRoutes from "./SearchRoutes";
 import { Router, type Application } from "express";
 import AuthMiddleware from "../middlewares/AuthMiddleware";
 
@@ -12,6 +13,7 @@ export default (app: Application) => {
   router.use("/products", AuthMiddleware, ProductsRoutes);
   router.use("/categories", AuthMiddleware, CategoriesRoutes);
   router.use("/stocks", AuthMiddleware, StocksRoutes);
+  router.use("/search", AuthMiddleware, SearchRoutes);
 
   router.use("/auth", AuthenticationRoutes);
 
