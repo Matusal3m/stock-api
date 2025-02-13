@@ -323,7 +323,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Ao chamar `GET /products`
 
-```json
+```http
 {
   id: number;
   name: string;
@@ -336,7 +336,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Qualquer outro retorno unitário
 
-```json
+```http
 {
   id: number;
   name: string;
@@ -352,7 +352,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Ao chamar `GET /categories`
 
-```json
+```http
 {
   id: number;
   name: string;
@@ -364,7 +364,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Qualquer outro retorno unitário
 
-```json
+```http
 {
   id: number;
   name: string;
@@ -377,7 +377,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Ao chamar `GET /stocks`
 
-```json
+```http
 {
   id: number;
   name: string;
@@ -388,7 +388,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Qualquer outro retorno unitário
 
-```json
+```http
 {
   id: number;
   name: string;
