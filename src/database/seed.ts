@@ -3,16 +3,15 @@ import { faker } from "@faker-js/faker";
 import { database } from "./connection.ts";
 import "dotenv/config";
 
-async function seedUsers(n: number) {
+async function seedUser() {
   const usersData: (typeof users.$inferInsert)[] = [];
 
-  for (let i = 0; i < n; i++) {
-    usersData.push({
-      name: faker.person.firstName(),
-      password: faker.internet.password(),
-      email: faker.internet.email(),
-    });
-  }
+  usersData.push({
+    id: 1,
+    name: "admin",
+    password: "admin",
+    email: "admin@teste.com",
+  });
 
   await database.insert(users).values(usersData);
 }
@@ -71,19 +70,18 @@ async function seedStocks(n: number, userScope: number) {
 }
 
 (async () => {
-  const USER_QUANTITY = 1;
   const STOCKS_QUANTITY = 5;
   const CATEGORIES_QUANTITY = 50;
   const PRODUCTS_QUANTITY = 1000;
 
-  await seedUsers(USER_QUANTITY);
+  await seedUser();
 
-  await seedStocks(STOCKS_QUANTITY, USER_QUANTITY);
-  await seedCategories(CATEGORIES_QUANTITY, STOCKS_QUANTITY, USER_QUANTITY);
+  await seedStocks(STOCKS_QUANTITY, 1);
+  await seedCategories(CATEGORIES_QUANTITY, STOCKS_QUANTITY, 1);
   await seedProducts(
     PRODUCTS_QUANTITY,
     STOCKS_QUANTITY,
     CATEGORIES_QUANTITY,
-    USER_QUANTITY
+    1
   );
 })();
