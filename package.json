@@ -14,7 +14,8 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "build": "bunx drizzle-kit migrate && bun run src/server.ts",
+    "start": "bun run src/server.ts",
+    "migrate": "bunx drizzle-kit migrate",
     "db:delete": "bun run src/database/delete.ts",
     "db:seed": "bun run src/database/seed.ts"
   },
