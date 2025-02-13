@@ -1,18 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import jwtService from "jsonwebtoken";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        id: number;
-        email: string;
-        name: string;
-      };
-    }
-  }
-}
-
 export default (req: Request, res: Response, next: NextFunction) => {
   try {
     const jwt = req.headers.authorization!;
