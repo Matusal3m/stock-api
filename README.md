@@ -44,7 +44,7 @@ Uma API de estoque para testar projetos front-end.
 Clone o projeto
 
 ```bash
-  git clone https://matusal3m/stock-api
+  git clone s://matusal3m/stock-api
 ```
 
 _ou_
@@ -147,31 +147,31 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 #### 1.1 Retorna todos produtos do usuário
 
-```http
+```
   GET /products
 ```
 
 #### 1.2 Retorna um produto
 
-```http
+```
   GET /products/${id}
 ```
 
 #### 1.3 Retorna todos produtos de uma categoria
 
-```http
+```
   GET /products/category/${id}
 ```
 
 #### 1.4 Retorna todos produtos de um estoque
 
-```http
+```
   GET /products/stock/${id}
 ```
 
 #### 1.5 Cria um produto
 
-```http
+```
   POST /products
 
   body: {
@@ -185,7 +185,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 #### 1.6 Atualiza um produto
 
-```http
+```
   PUT /products
 
   body: {
@@ -202,25 +202,25 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 #### 2.1 Retorna todas categorias do usuário
 
-```http
+```
   GET /categories
 ```
 
 #### 2.2 Retorna uma categoria
 
-```http
+```
   GET /categories/${id}
 ```
 
 #### 2.3 Retorna todas categorias de um estoque
 
-```http
+```
   GET /categories/stock/${id}
 ```
 
 #### 2.4 Cria uma categoria
 
-```http
+```
   POST /categories
 
   body: {
@@ -231,7 +231,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 #### 2.5 Atualiza uma categoria
 
-```http
+```
   PUT /categories
 
   body: {
@@ -245,19 +245,19 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 #### 3.1 Retorna todos estoques do usuário
 
-```http
+```
   GET /stocks
 ```
 
 #### 3.2 Retorna um estoque
 
-```http
+```
   GET /stocks/${id}
 ```
 
 #### 3.3 Cria um estoque
 
-```http
+```
   POST /stocks
 
   body: {
@@ -267,7 +267,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 #### 3.4 Atualiza um estoque
 
-```http
+```
   PUT /stocks
 
   body: {
@@ -280,7 +280,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 #### 4.1 Logar usuário
 
-```http
+```
   POST /auth/login
 
   body: {
@@ -293,7 +293,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 #### 4.2 Registrar usuário
 
-```http
+```
   POST /auth/register
 
   body: {
@@ -307,7 +307,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 ### 5. Pesquisa
 
-```http
+```
   POST /search
 
   body: {
@@ -323,7 +323,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Ao chamar `GET /products`
 
-```http
+```
 {
   id: number;
   name: string;
@@ -336,7 +336,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Qualquer outro retorno unitário
 
-```http
+```
 {
   id: number;
   name: string;
@@ -352,7 +352,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Ao chamar `GET /categories`
 
-```http
+```
 {
   id: number;
   name: string;
@@ -364,7 +364,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Qualquer outro retorno unitário
 
-```http
+```
 {
   id: number;
   name: string;
@@ -377,7 +377,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Ao chamar `GET /stocks`
 
-```http
+```
 {
   id: number;
   name: string;
@@ -388,7 +388,7 @@ todos registrados no usuário padrão, com os seguintes dados:
 
 - Qualquer outro retorno unitário
 
-```http
+```
 {
   id: number;
   name: string;
